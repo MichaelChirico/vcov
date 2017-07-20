@@ -5,5 +5,5 @@ Author: Michael Chirico
 Maintainer: Michael Chirico <MichaelChirico4@gmail.com>
 Depends: R (>= 3.4.0)
 Description: Methods for faster extraction of variance-covariance matrices and standard errors from models. Methods in the stats package tend to rely on the summary method, which may waste time computing other summary statistics which are summarily ignored.
-License: GPL (>= 2)
+License: GPL (>= 2) | file LICENSE
 URL: https://github.com/MichaelChirico/vcov

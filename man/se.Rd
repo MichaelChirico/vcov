@@ -1,18 +1,25 @@
 \name{se}
+\alias{se}
+\alias{se.lm}
+\alias{se.glm}
 \title{Fast Standard Error Computation}
 \description{
   Skip wasted object summary steps computed by base R when computing standard errors of common model objects.
 }
 \usage{
-  se(obj, ...)
+  se(object, ...)
 
-  \method{se}{lm}(obj)
+  \method{se}{lm}(object, ...)
 
-  \method{se}{glm}(x, dispersion = NULL)
+  \method{se}{glm}(object, dispersion = NULL, ...)
 }
 \arguments{
-  \item{obj}{ A fitted model object. }
+  \item{object}{ A fitted model object. }
   \item{...}{ Additional arguments for method functions. For the \code{glm} method this can be used to pass a \code{dispersion} parameter. }
+  \item{dispersion}{ The dispersion parameter for the family used. Either a single numerical value or \code{NULL} (the default), in which case it is inferred from \code{obj}. For details, see \code{\link{summary.glm}}. }
+}
+\seealso{ 
+  \code{\link{summary.glm}}
 }
 \examples{
   # data taken from ?lm
