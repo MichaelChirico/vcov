@@ -1,0 +1,5 @@
+#naming convention:
+#  function.FEATURE/argument.number, e.g.
+#  tex.usedims.1
+
+test <- texr:::test
