@@ -9,7 +9,7 @@ test.vcov <- function(...) {
              envir = new.env(parent = .GlobalEnv))
 }
 
-test <- function(name, x, y, error, warning, message) {
+test <- function(name, x, y, approx = FALSE, error, warning, message) {
   #Extra spaces since \r moves the cursor to the beginning of
   #  the line, but doesn't erase the current text in the line --
   #  so new text only overwrites old text if it's wider. 
@@ -72,11 +72,21 @@ test <- function(name, x, y, error, warning, message) {
         "', but returned no message.\n", sep = "")
     return()
   }
-  if (identical(x.catch, y)) return()
-  else 
-    cat("\n`", deparse(substitute(x)),
-        "` evaluated without errors to:\n", x,
-        "\nwhich is not identical to the expected output:\n",
-        eval(substitute(y)), "\n", sep = "")
+  #allow for numerical errors if approx = TRUE
+  if (approx) {
+    if (all.equal(x.catch, y)) return()
+    else 
+      cat("\n`", deparse(substitute(x)),
+          "` evaluated without errors to:\n", x,
+          "\nwhich is not equal to the expected output:\n",
+          eval(substitute(y)), "\nat default tolerance\n", sep = "")
+  } else {
+    if (identical(x.catch, y)) return()
+    else 
+      cat("\n`", deparse(substitute(x)),
+          "` evaluated without errors to:\n", x,
+          "\nwhich is not identical to the expected output:\n",
+          eval(substitute(y)), "\n", sep = "")
+  }
   return()
 }

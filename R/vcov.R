@@ -8,8 +8,11 @@ vcov.lm = function(object, ...) {
     } else {
       sum(w * object$residuals^2)
     }
-    return(rss * chol2inv(object$qr$qr[p1, p1, drop = FALSE])/
-             object$residual.df)
+    covmat = rss * chol2inv(object$qr$qr[p1, p1, drop = FALSE])/
+      object$df.residual
+    nm = names(object$coefficients)
+    dimnames(covmat) = list(nm, nm)
+    return(covmat)
   } else return(numeric(0))
 }
 
