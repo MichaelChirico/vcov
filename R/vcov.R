@@ -1,3 +1,5 @@
+se = function(obj, ...) UseMethod('se')
+
 vcov.lm = function(obj) {
   if (p <- obj$rank) {
     p1 = seq_len(p)
@@ -37,4 +39,5 @@ vcov.glm = function(obj, dispersion = NULL) {
   } else return(numeric(0))
 }
 
-se.glm = function(obj) sqrt(diag(vcov.glm(obj)))
+se.glm = function(obj, dispersion = NULL) 
+  sqrt(diag(vcov.glm(obj, dispersion = dispersion)))

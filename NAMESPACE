@@ -1,0 +1,7 @@
+export(se)
+
+S3method('vcov', lm)
+S3method('vcov', glm)
+
+S3method('se', lm)
+S3method('se', glm)
