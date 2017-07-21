@@ -14,7 +14,5 @@
   Runs a series of tests.
 }
 \examples{
-  \dontrun{
-    test.vcov()
-  }
+  test.vcov()
 }
