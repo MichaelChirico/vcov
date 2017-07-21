@@ -11,7 +11,7 @@ trt = c(4.81,4.17,4.41,3.59,5.87,3.83,6.03,4.89,4.32,4.69)
 group = gl(2, 10, 20, labels = c("Ctl","Trt"))
 weight = c(ctl, trt)
 reg_lm = lm(weight ~ group)
-test('vcov.lm.VALUE.1', vcov:::vcov.lm(reg_lm), stats:::vcov.lm(reg_lm),
+test('vcov.lm.VALUE.1', Vcov(reg_lm), vcov(reg_lm),
 	 #stats:::summary.lm uses sqrt(rss/rdf)^2 to calculate vcov;
 	 #  this package instead just uses rss/rdf, leading to
 	 #  numerical discrepancies between the two
@@ -21,4 +21,4 @@ counts = c(18,17,15,20,10,20,25,13,12)
 outcome = gl(3,1,9)
 treatment = gl(3,3)
 reg_glm = glm(counts ~ outcome + treatment, family = poisson)
-test('vcov.glm.VALUE.1', vcov:::vcov.glm(reg_glm), stats:::vcov.glm(reg_glm))
+test('vcov.glm.VALUE.1', Vcov(reg_glm), vcov(reg_glm))

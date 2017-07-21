@@ -59,7 +59,7 @@ reg = lm(y ~ 1)
 true_variance = (N^2-1)/(12*(N - 1))
 
 stat_err = abs(true_variance - stats:::vcov.lm(reg))
-vcov_err = abs(true_variance - vcov:::vcov.lm(reg))
+vcov_err = abs(true_variance - vcov:::Vcov.lm(reg))
 #absolute error with vcov
 #  (i.e., there's still some numerical issues introduced
 #   by the numerics behind the other components)

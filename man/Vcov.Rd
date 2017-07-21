@@ -1,17 +1,20 @@
-\name{se}
+\name{Vcov}
 \alias{se}
-\alias{se.lm}
-\alias{se.glm}
-\title{Fast Standard Error Computation}
+\alias{Vcov}
+\alias{Vcov.lm}
+\alias{Vcov.glm}
+\title{Fast Covariance Matrix and Standard Error Computation}
 \description{
-  Skip wasted object summary steps computed by base R when computing standard errors of common model objects.
+  Skip wasted object summary steps computed by base R when computing covariance matrices and standard errors of common model objects.
 }
 \usage{
+  Vcov(object, ...)
+
+  \method{Vcov}{lm}(object, ...)
+
+  \method{Vcov}{glm}(object, dispersion = NULL, ...)
+  
   se(object, ...)
-
-  \method{se}{lm}(object, ...)
-
-  \method{se}{glm}(object, dispersion = NULL, ...)
 }
 \arguments{
   \item{object}{ A fitted model object. }
@@ -28,6 +31,7 @@
   group = gl(2, 10, 20, labels = c("Ctl","Trt"))
   weight = c(ctl, trt)
   reg_lm = lm(weight ~ group)
+  Vcov(reg_lm)
   se(reg_lm)
 
   # data taken from ?glm
@@ -35,5 +39,6 @@
   outcome = gl(3,1,9)
   treatment = gl(3,3)
   reg_glm = glm(counts ~ outcome + treatment, family = poisson)
+  Vcov(reg_glm)
   se(reg_glm)
 }
