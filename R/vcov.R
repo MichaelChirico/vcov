@@ -1,6 +1,10 @@
-se = function(object, ...) UseMethod('se')
+se = function(object, ...) sqrt(diag(Vcov(object, ...)))
 
-vcov.lm = function(object, ...) {
+Vcov = function(object, ...) UseMethod('Vcov')
+
+Vcov.default = vcov
+
+Vcov.lm = function(object, ...) {
   if (p <- object$rank) {
     p1 = seq_len(p)
     rss = if (is.null(w <- object$weights)) { 
@@ -16,9 +20,7 @@ vcov.lm = function(object, ...) {
   } else return(numeric(0))
 }
 
-se.lm = function(object, ...) sqrt(diag(vcov.lm(object)))
-
-vcov.glm = function(object, dispersion = NULL, ...) {
+Vcov.glm = function(object, dispersion = NULL, ...) {
   if (p <- object$rank) {
     if (is.null(dispersion)) {
       dispersion = if (object$family$family %in% c('poisson', 'binomial')) {
@@ -42,6 +44,3 @@ vcov.glm = function(object, dispersion = NULL, ...) {
     return(covmat)
   } else return(numeric(0))
 }
-
-se.glm = function(object, dispersion = NULL, ...) 
-  sqrt(diag(vcov.glm(object, dispersion = dispersion)))

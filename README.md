@@ -25,7 +25,7 @@ y = 3 + 4*x
 reg = lm(y ~ x)
 
 microbenchmark(times = 100,
-               vcov = vcov:::vcov.lm(reg),
+               vcov = vcov:::Vcov.lm(reg),
                stats = stats:::vcov.lm(reg))
 # Unit: milliseconds
 #   expr      min       lq     mean   median       uq       max neval

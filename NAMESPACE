@@ -1,10 +1,7 @@
-export(se)
+export(se, Vcov)
 export(test.vcov)
 
-S3method('vcov', lm)
-S3method('vcov', glm)
-
-S3method('se', lm)
-S3method('se', glm)
+S3method('Vcov', lm)
+S3method('Vcov', glm)
 
 importFrom('utils', 'capture.output')
