@@ -34,3 +34,42 @@ microbenchmark(times = 100,
 ```
 
 That's three times as fast, or about 30 milliseconds saved (on an admittedly dinky machine). That means about 30 seconds saved in a 1000-resample bootstrap -- this example alone spent 3 more seconds using the `stats` method, i.e., 75% of the run time was dedicated to `stats`. 
+
+## Bonus: Accuracy
+
+In returning a covariance matrix, by using the indirect approach taken in `stats`, numerical error is introduced unnecessarily. The formula for covariance of vanilla OLS is of course:
+
+$$ \mathbb{V}[\hat{\beta}] = \sigma^2 \left( X^T X \right) ^ {-1} $$
+
+`stats`, unfortunately, computes this as essentially
+
+    covmat = sqrt(sigma2)^2 * XtXinv
+    
+The extra square root and exponentiation introduce some minor numerical error; we obviate this by simply computing `sigma2` and multiplying it with `XtXinv`. The difference is infinitesimal, but easily avoided.
+
+Let's consider a situation where we can get an analytic form of the variance. Consider $y_i = i$, $i = 1, \ldots, n$ regressed with OLS against a constant, $\beta$.
+
+The OLS solution is $\hat{\beta} = \frac{n+1}2$. The implied error variance is $\sigma^2 = \frac{n}{n-1} \frac{n^2 - 1}{12}$, so the implied covariance "matrix" (singleton) is $\mathbb{V}[\hat{\beta}] = \frac{n^2 - 1}{12(n - 1)}$, since $ \left( X^T X \right) ^ {-1} = \frac1{n} $.
+
+```
+N = 1e5
+y = 1:N 
+
+reg = lm(y ~ 1)
+true_variance = (N^2-1)/(12*(N - 1))
+
+stat_err = abs(true_variance - stats:::vcov.lm(reg))
+vcov_err = abs(true_variance - vcov:::vcov.lm(reg))
+#absolute error with vcov
+#  (i.e., there's still some numerical issues introduced
+#   by the numerics behind the other components)
+vcov_err
+#              (Intercept)
+# (Intercept) 1.818989e-12
+
+#relative error of stats compared to vcov
+#  (sometimes the error is 0 for both methods)
+stat_err/vcov_err
+#             (Intercept)
+# (Intercept)           2
+```
